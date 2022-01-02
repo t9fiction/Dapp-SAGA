@@ -6,10 +6,10 @@
 const hre = require("hardhat");
 
 const main = async () => {
-  
+
   // We get the contract to deploy
   const Transactions = await hre.ethers.getContractFactory("Transactions");
-  const transactions = await Transactions.deploy("Hello, Hardhat!");
+  const transactions = await Transactions.deploy();
 
   await transactions.deployed();
 
@@ -18,9 +18,20 @@ const main = async () => {
 
 // We recommend this pattern to be able to use async/await everywhere
 // and properly handle errors.
-main()
-  .then(() => process.exit(0))
-  .catch((error) => {
-    console.error(error);
+const runMain = async () => {
+  try {
+    await main();
+    process.exit(0);
+  } catch (error) {
     process.exit(1);
-  });
+    console.log("error", error)
+  }
+}
+runMain();
+
+// main()
+//   .then(() => process.exit(0))
+//   .catch((error) => {
+//     console.error(error);
+//     process.exit(1);
+//   });
