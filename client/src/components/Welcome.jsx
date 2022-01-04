@@ -4,6 +4,7 @@ import { SiEthereum } from "react-icons/si";
 import { BsInfoCircle } from "react-icons/bs";
 
 import { Loader } from './';
+import { GlobalStore } from '../context/GlobalState';
 
 const Input = ({ placeholder, name, type, value, handleChange }) => (
     <input
@@ -20,6 +21,7 @@ const commonStyles = "min-h-[70px] sm:px-0 px-2 sm:min-w-[120px] flex justify-ce
 
 
 const Welcome = () => {
+    const [{ web3handleChange }, dispatch] = GlobalStore();
     const connectWallet = () => {
 
     }
