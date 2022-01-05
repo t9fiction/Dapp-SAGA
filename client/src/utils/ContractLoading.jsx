@@ -9,8 +9,11 @@ const { ethereum } = window;
 export const ContractLoading = async (value) => {
     try {
         // if (window.ethereum !== undefined) {
-            if(!ethereum) return alert("Metamask not installed");
+            if(!ethereum){
+                return alert("Metamask not installed");  
+            } else{
             let provider = new ethers.providers.Web3Provider(ethereum);
+            await window.ethereum.enable()
             // await provider.ethereum.enable()
             // value(loadWeb3(provider));
             let signer = provider.getSigner();
@@ -21,7 +24,7 @@ export const ContractLoading = async (value) => {
                 // contract,
                 signer
             })
-        // }
+        }
     } catch (error) {
         console.log("Wallet Not Connected", error)
     }
