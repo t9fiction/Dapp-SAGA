@@ -6,7 +6,7 @@ import { contractABI, contractAddress } from './constants';
 
 const { ethereum } = window;
 
-export const ContractLoading = async (value) => {
+export const ContractLoading = async (dispatch) => {
     try {
         // if (window.ethereum !== undefined) {
         if (!ethereum) {
@@ -19,7 +19,7 @@ export const ContractLoading = async (value) => {
             let signer = provider.getSigner();
             let contractVal = new ethers.Contract(contractAddress, contractABI, signer);
             const accounts = await ethereum.request({method:'eth_accounts'})
-            value(loadAccounts(accounts))
+            dispatch(loadAccounts(accounts))
             console.log({
                 provider,
                 // contract,
