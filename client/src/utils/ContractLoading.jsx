@@ -14,10 +14,12 @@ export const ContractLoading = async (dispatch) => {
         } else {
             let provider = new ethers.providers.Web3Provider(ethereum);
             await window.ethereum.enable()
-            // await provider.ethereum.enable()
-            // value(loadWeb3(provider));
+            // dispatch(loadWeb3(provider));
             let signer = provider.getSigner();
+            
             let contractVal = new ethers.Contract(contractAddress, contractABI, signer);
+            // dispatch(loadContract(contractVal))
+            
             const accounts = await ethereum.request({method:'eth_accounts'})
             dispatch(loadAccounts(accounts))
             console.log({
