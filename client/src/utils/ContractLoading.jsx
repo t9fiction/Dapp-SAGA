@@ -7,19 +7,23 @@ import { contractABI, contractAddress } from './constants';
 const { ethereum } = window;
 
 export const ContractLoading = async (value) => {
-
-    let provider = new ethers.providers.Web3Provider(ethereum);
-    await provider.ethereum.enable()
-    value(loadWeb3(provider));
-    let signer = provider.getSigner();
-    let contractVal = new ethers.Contract(contractAddress, contractABI, signer);
-    value(loadContract(contractVal))
-
-    console.log({
-        provider,
-        signer,
-        contract
-    })
+    try {
+        if (typeof window.ethereum !== undefined) {
+            let provider = new ethers.providers.Web3Provider(ethereum);
+            await provider.ethereum.enable()
+            value(loadWeb3(provider));
+            let signer = provider.getSigner();
+            let contractVal = new ethers.Contract(contractAddress, contractABI, signer);
+            value(loadContract(contractVal))
+            console.log({
+                provider,
+                signer,
+                contract
+            })
+        }
+    } catch (error) {
+        console.log("Wallet Not Connected", error)
+    }
     // try {
     // if (Web3.givenProvider) {
     //     let web3 = new Web3(Web3.givenProvider);
