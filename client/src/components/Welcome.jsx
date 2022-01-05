@@ -21,11 +21,8 @@ const commonStyles = "min-h-[70px] sm:px-0 px-2 sm:min-w-[120px] flex justify-ce
 
 
 const Welcome = () => {
-    const [{ web3handleChange }, dispatch] = GlobalStore();
-    const connectWallet = () => {
-
-    }
-
+    const { connectWallet } = GlobalStore();
+    
     const handleSubmit = () => {
 
     }
