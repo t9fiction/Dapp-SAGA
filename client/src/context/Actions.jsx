@@ -12,16 +12,16 @@ export const loadContract = (contract) => {
     })
 }
 
-// export const loadAccounts = (accounts) => {
-//     return ({
-//         type: 'LOAD_ACCOUNTS',
-//         payload: accounts
-//     })
-// }
+export const loadAccounts = (accounts) => {
+    return ({
+        type: 'LOAD_ACCOUNTS',
+        payload: accounts
+    })
+}
 
-// export const loadState = (active) => {
-//     return({
-//         type: 'LOAD_STATE',
-//         payload: active
-//     })
-// }
+export const loadState = (active) => {
+    return({
+        type: 'LOAD_STATE',
+        payload: active
+    })
+}

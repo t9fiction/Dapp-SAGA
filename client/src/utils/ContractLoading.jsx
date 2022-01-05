@@ -1,7 +1,7 @@
 import React from 'react'
 // import Web3 from 'web3'
 import { ethers } from 'ethers'
-import { loadWeb3, loadContract } from '../context/Actions';
+import { loadWeb3, loadContract, loadAccounts } from '../context/Actions';
 import { contractABI, contractAddress } from './constants';
 
 const { ethereum } = window;
@@ -19,7 +19,7 @@ export const ContractLoading = async (value) => {
             let signer = provider.getSigner();
             let contractVal = new ethers.Contract(contractAddress, contractABI, signer);
             const accounts = await ethereum.request({method:'eth_accounts'})
-            // value(loadContract(contractVal))
+            value(loadAccounts(accounts))
             console.log({
                 provider,
                 // contract,
