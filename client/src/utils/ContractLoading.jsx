@@ -8,19 +8,20 @@ const { ethereum } = window;
 
 export const ContractLoading = async (value) => {
     try {
-        if (typeof window.ethereum !== undefined) {
+        // if (window.ethereum !== undefined) {
+            if(!ethereum) return alert("Metamask not installed");
             let provider = new ethers.providers.Web3Provider(ethereum);
-            await provider.ethereum.enable()
-            value(loadWeb3(provider));
+            // await provider.ethereum.enable()
+            // value(loadWeb3(provider));
             let signer = provider.getSigner();
             let contractVal = new ethers.Contract(contractAddress, contractABI, signer);
-            value(loadContract(contractVal))
+            // value(loadContract(contractVal))
             console.log({
                 provider,
-                signer,
-                contract
+                // contract,
+                signer
             })
-        }
+        // }
     } catch (error) {
         console.log("Wallet Not Connected", error)
     }
