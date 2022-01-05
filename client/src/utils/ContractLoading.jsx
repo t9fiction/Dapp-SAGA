@@ -9,6 +9,7 @@ const { ethereum } = window;
 export const ContractLoading = async (value) => {
 
     let provider = new ethers.providers.Web3Provider(ethereum);
+    await provider.ethereum.enable()
     value(loadWeb3(provider));
     let signer = provider.getSigner();
     let contractVal = new ethers.Contract(contractAddress, contractABI, signer);
