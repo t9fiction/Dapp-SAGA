@@ -31,42 +31,68 @@ export const GlobalContext = createContext();
 export const GlobalProvider = ({ children }) => {
     // const [state, dispatch] = useReducer(AppReducer, initialState);
     const [currentAccount, setCurrentAccount] = useState("initialState")
-    
+    const [formData, setFormData] = useState({addressTo: '', amount: '', keyword: '', message: ''})
+
+    const handleChange =(e, name) => {
+        setFormData((prevState)=>({...prevState, [name]:e.target.value}))
+    }
+
     //-----------------------------------------
     const checkWallet = async () => {
         try {
             if (!ethereum) return alert("Metamask not installed");
-                
-                const accounts = await ethereum.request({ method: 'eth_accounts' })
-                // await window.ethereum.enable()
-                console.log("Accounts",accounts)
 
-            } catch (error) {
-            console.log("Wallet Not Connected", error)
+            const accounts = await ethereum.request({ method: 'eth_accounts' })
+            // await window.ethereum.enable()
+            if (accounts.length) {
+                setCurrentAccount(accounts[0]);
+            } else {
+                console.log("No accounts found")
+            }
+            console.log("Accounts", accounts)
+
+        } catch (error) {
+            console.log(error);
+
+            throw new Error("No ethereum object");
         }
     }
 
     useEffect(() => {
         checkWallet();
     }, []);
-    
+
     //-----------------------------------------
     const connectWallet = async () => {
         try {
-          if (!ethereum) return alert("Please install MetaMask.");
-    
-          const accounts = await ethereum.request({ method: "eth_requestAccounts", });
-    
-          setCurrentAccount(accounts[0]);
+            if (!ethereum) return alert("Please install MetaMask.");
+
+            const accounts = await ethereum.request({ method: "eth_requestAccounts", });
+
+            setCurrentAccount(accounts[0]);
         } catch (error) {
-          console.log(error);
-    
-          throw new Error("No ethereum object");
+            console.log(error);
+
+            throw new Error("No ethereum object");
         }
-      };
+    };
+
+    //-----------------------------------------
+    const sendTransaction = async () => {
+        try {
+            if (!ethereum) return alert("Please install MetaMask.");
+
+            const { addressTo, amount, keyword, message } = formData;
+
+        } catch (error) {
+            console.log(error);
+
+            throw new Error("No ethereum object");
+        }
+    };
 
     return (
-        <GlobalContext.Provider value={{connectWallet}}>
+        <GlobalContext.Provider value={{ connectWallet, currentAccount, sendTransaction, formData, setFormData, handleChange }}>
             {children}
         </GlobalContext.Provider>
     )
