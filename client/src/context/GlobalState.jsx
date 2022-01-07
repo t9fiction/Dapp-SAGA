@@ -32,8 +32,8 @@ export const GlobalProvider = ({ children }) => {
     const [trxCount, setTrxCount] = useState(localStorage.getItem("trxCount"))
 
     const handleChange = (e, name) => {
-        setFormData((prevState) => ({ ...prevState, [name]: e.target.value }))
-    }
+        setFormData((prevState) => ({ ...prevState, [name]: e.target.value }));
+    };
 
     //-----------------------------------------
     const checkWallet = async () => {
@@ -78,7 +78,8 @@ export const GlobalProvider = ({ children }) => {
             if (!ethereum) return alert("Please install MetaMask.");
 
             const { addressTo, amount, keyword, message } = formData;
-            const contract = getEtherContract();
+            const contract = await getEtherContract();
+            console.log("Contract in SendTransaction : ", contract)
 
             const parsedAmount = ethers.utils.parseEther(amount); //Build in ethereum function
 
@@ -87,7 +88,7 @@ export const GlobalProvider = ({ children }) => {
                 params: [{
                     from: currentAccount,
                     to: addressTo,
-                    gas: '0x5208',
+                    gas: "0x5208",
                     value: parsedAmount._hex,
                 }],
             });
@@ -95,7 +96,6 @@ export const GlobalProvider = ({ children }) => {
             const trxHash = await contract.addToBlockchain(addressTo, parsedAmount, message, keyword);
 
             setIsLoading(true);
-            console.log("value of setIsLoading : ", isLoading);
             console.log(`Loading - ${trxHash.hash}`);
             await trxHash.wait();
             setIsLoading(false);
