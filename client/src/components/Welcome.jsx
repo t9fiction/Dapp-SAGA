@@ -21,14 +21,14 @@ const commonStyles = "min-h-[70px] sm:px-0 px-2 sm:min-w-[120px] flex justify-ce
 
 
 const Welcome = () => {
-    const { connectWallet, currentAccount, sendTransaction, formData, setFormData, handleChange } = GlobalStore();
+    const { connectWallet, currentAccount, sendTransaction, formData, isLoading, handleChange } = GlobalStore();
 
-    const handleSubmit = () => {
+    const handleSubmit = (e) => {
         const { addressTo, amount, keyword, message } = formData;
 
         e.preventDefault();
 
-        if (!addressTo || !amount || !keyword || !message) return (alert("Missing Data"));
+        if (!addressTo || !amount || !keyword || !message) return;
 
         sendTransaction()
     }
