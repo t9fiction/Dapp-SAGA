@@ -14,7 +14,7 @@ const getEtherContract = async () => {
             // await window.ethereum.enable()
             const signer = provider.getSigner();
             const contract = new ethers.Contract(contractAddress, contractABI, signer);
-            
+
             return contract;
 
         }
@@ -56,7 +56,7 @@ export const GlobalProvider = ({ children }) => {
         }
     }
 
-    
+
     //-----------------------------------------
     const connectWallet = async () => {
         try {
@@ -71,50 +71,50 @@ export const GlobalProvider = ({ children }) => {
             throw new Error("No ethereum object");
         }
     };
-    
+
     //-----------------------------------------
     const sendTransaction = async () => {
         try {
             if (!ethereum) return alert("Please install MetaMask.");
-            
+
             const { addressTo, amount, keyword, message } = formData;
             const contract = getEtherContract();
-            
+
             const parsedAmount = ethers.utils.parseEther(amount); //Build in ethereum function
-            
+
             await ethereum.request({
                 method: 'eth_sendTransaction',
                 params: [{
                     from: currentAccount,
                     to: addressTo,
                     gas: '0x5208',
-                    value: parsedAmount._hex
+                    value: parsedAmount._hex,
                 }],
             });
-            
+
             const trxHash = await contract.addToBlockchain(addressTo, parsedAmount, message, keyword);
-            
+
             setIsLoading(true);
-            console.log("value of setIsLoading : ",isLoading);
+            console.log("value of setIsLoading : ", isLoading);
             console.log(`Loading - ${trxHash.hash}`);
             await trxHash.wait();
             setIsLoading(false);
             console.log(`Successfully loaded - ${trxHash.hash}`);
-            
+
             const transactionCount = await contract.getTransactionCount();
             setTrxCount(transactionCount.toNumber());
-            
+
         } catch (error) {
             console.log(error);
-            
+
             throw new Error("No ethereum object1");
         }
     };
-    
+
     useEffect(() => {
         checkWallet();
     }, []);
-    
+
     return (
         <GlobalContext.Provider value={{ connectWallet, currentAccount, sendTransaction, formData, isLoading, handleChange }}>
             {children}
