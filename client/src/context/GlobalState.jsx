@@ -107,7 +107,7 @@ export const GlobalProvider = ({ children }) => {
         } catch (error) {
             console.log(error);
 
-            throw new Error("No ethereum object1");
+            throw new Error("No ethereum object");
         }
     };
 
