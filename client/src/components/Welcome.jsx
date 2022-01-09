@@ -5,6 +5,7 @@ import { BsInfoCircle } from "react-icons/bs";
 
 import { Loader } from './';
 import { GlobalStore } from '../context/GlobalState';
+import { shortenAddress } from '../utils/shortenAddress';
 
 const Input = ({ placeholder, name, type, value, handleChange }) => (
     <input
@@ -75,7 +76,9 @@ const Welcome = () => {
                             </div>
                             <div>
                                 <p className="text-white font-light text-sm">
-                                    Address: 0x12ACD34...
+                                    {currentAccount ? 
+                                    shortenAddress(currentAccount):
+                                    "No accounts found"}
                                 </p>
                                 <p className="text-white font-semibold text-lg mt-1">
                                     Ethereum
@@ -91,7 +94,7 @@ const Welcome = () => {
 
                         <div className="h-[1px] w-full bg-gray-400 my-2" />
 
-                        {false ?
+                        {isLoading ?
                             (<Loader />)
                             :
                             (
